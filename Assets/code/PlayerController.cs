@@ -1,13 +1,14 @@
+using UnityEngine.InputSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     // Start is called before the first frame update
     private Vector2 movementVector;
     private Rigidbody2D rb;
+    private bool isGrounded = false;
     [SerializeField] int speed = 0;
     void Start()
     {
@@ -31,17 +32,35 @@ public class PlayerController : MonoBehaviour
     }
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            // do something
-            Debug.Log("Hello");
+            isGrounded = true;
+            
         }
-        //JUMP ASSIGNMENT
-        //1. ADD A JUMP BINDING TO PLAYER INPUT, BIND TO SPACE
-        //2. WHEN THE SPACE BAR IS PRESSED, ADD AN UPWARD FORCE TO THE PLAYER
-        void OnJump()
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            rb.AddForce(new Vector2(0, 100));
+            isGrounded = false;
+
+        }
+    }
+    //JUMP ASSIGNMENT
+    //1. ADD A JUMP BINDING TO PLAYER INPUT, BIND TO SPACE
+    //2. WHEN THE SPACE BAR IS PRESSED, ADD AN UPWARD FORCE TO THE PLAYER
+    void OnJump()
+    {
+        if (isGrounded)
+        {
+            rb.AddForce(new Vector2(0, 130));
+        }
+    }
+    void OnDash()
+    {
+        if (isGrounded)
+        {
+            rb.AddForce(new Vector2(60, 0));
         }
     }
 }
