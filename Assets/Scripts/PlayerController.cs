@@ -11,9 +11,12 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded = false;
     [SerializeField] int speed = 0;
     private int score = 0;
+    private SpriteRenderer sr;
+    [SerializeField] Animator animator;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -30,6 +33,12 @@ public class PlayerController : MonoBehaviour
 
 
         Debug.Log(movementVector);
+        animator.SetBool("Walk_Right", !Mathf.Approximately(movementVector.x, 0));
+        if (!Mathf.Approximately(movementVector.x, 0))
+        {
+            sr.flipX = movementVector.x < 0;
+        }
+
     }
     void OnCollisionEnter2D(Collision2D collision)
     {
