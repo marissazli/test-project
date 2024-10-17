@@ -70,6 +70,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrounded)
         {
+            animator.SetBool("Walk_Right", true);
             rb.AddForce(new Vector2(10000, 0));
         }
     }
