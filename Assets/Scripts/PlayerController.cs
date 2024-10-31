@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
@@ -13,6 +14,9 @@ public class PlayerController : MonoBehaviour
     private int score = 0;
     private SpriteRenderer sr;
     [SerializeField] Animator animator;
+    [SerializeField] AudioSource SFXSource;
+    [SerializeField] AudioClip jumpClip;
+    [SerializeField] AudioMixerSnapshot snapshot;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -64,6 +68,7 @@ public class PlayerController : MonoBehaviour
         if (isGrounded)
         {
             rb.AddForce(new Vector2(0, 300));
+            SFXSource.PlayOneShot(jumpClip);
         }
     }
     void OnDash()
